@@ -1,4 +1,4 @@
-from generate_avatar import generate_smpl_mesh
+from src.modelo3D.generate_avatar import generate_smpl_mesh
 from render_avatar import render_mesh
 
 def main():

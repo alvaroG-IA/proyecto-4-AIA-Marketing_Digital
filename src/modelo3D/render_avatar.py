@@ -13,8 +13,8 @@ def render_mesh(vertices, faces, output_path="avatar.png"):
     camera = pyrender.PerspectiveCamera(yfov=np.pi / 3.0)
     camera_pose = np.array([
         [1, 0, 0, 0],
-        [0, 1, 0, -0.1],
-        [0, 0, 1, 2.5],
+        [0, 1, 0, -0.2],
+        [0, 0, 1, 2.4],
         [0, 0, 0, 1],
     ])
     scene.add(camera, pose=camera_pose)

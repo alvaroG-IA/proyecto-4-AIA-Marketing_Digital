@@ -1,15 +1,12 @@
 import torch
 import smplx
-import numpy as np
-import trimesh
-import pyrender
-from body_parameters import height_weight_to_betas
+from src.modelo3D.body_parameters import height_weight_to_betas
 
 import pyrender
 import trimesh
 
 # Ruta al modelo SMPL-X
-MODEL_PATH = "../models"
+MODEL_PATH = "../../models"
 device = torch.device("cpu")
 
 # Cargamos SMPL-X
@@ -26,7 +23,55 @@ def generate_smplx_mesh(height_cm, weight_kg):
     betas = height_weight_to_betas(height_cm, weight_kg)
     betas = torch.tensor(betas, dtype=torch.float32).unsqueeze(0)
 
-    body_pose = torch.zeros((1, smpl_model.NUM_BODY_JOINTS*3), dtype=torch.float32)
+    body_pose = torch.zeros((1, 21, 3), dtype=torch.float32)
+
+    # 🔹 Joints correctos SMPL-X
+    NECK = 12
+    HEAD = 14
+    RIGHT_SHOULDER = 15
+    LEFT_SHOULDER = 16
+    RIGHT_ELBOW = 17
+    LEFT_ELBOW = 18
+    RIGHT_HAND = 19
+    LEFT_HAND = 20
+
+    # -------------------------------------------------
+    # 1) Cabeza recta
+    body_pose[0, NECK] = torch.tensor([0.0, 0.0, 0.0])
+    body_pose[0, HEAD] = torch.tensor([0.0, 0.0, 0.0])
+
+    # -------------------------------------------------
+    # 2) Brazos relajados naturales (A-pose)
+    arm_angle = 1.1
+
+    # Separación lateral (eje Z)
+    body_pose[0, LEFT_SHOULDER, 2] = arm_angle
+    body_pose[0, RIGHT_SHOULDER, 2] = -arm_angle
+
+    # Ligera rotación hacia delante (eje X)
+    body_pose[0, LEFT_SHOULDER, 1] = 0.1
+    body_pose[0, RIGHT_SHOULDER, 1] = -0.1
+
+    # -------------------------------------------------
+    # 3) Codos ligeramente doblados
+
+    body_pose[0, LEFT_ELBOW, 1] = 0.25
+    body_pose[0, RIGHT_ELBOW, 1] = -0.25
+
+    body_pose[0, LEFT_ELBOW, 2] = 0.5
+    body_pose[0, RIGHT_ELBOW, 2] = -0.5
+
+    # 4) Manos bien puestas
+    body_pose[0, LEFT_HAND, 0] = 0.2
+    body_pose[0, RIGHT_HAND, 0] = -0.2
+
+    body_pose[0, LEFT_HAND, 2] = -0.2
+    body_pose[0, RIGHT_HAND, 2] = 0.2
+
+    # -------------------------------------------------
+    # Convertir a (1,63)
+    body_pose = body_pose.view(1, -1)
+
     global_orient = torch.zeros((1, 3), dtype=torch.float32)
     left_hand_pose = torch.zeros((1, 15*3), dtype=torch.float32)
     right_hand_pose = torch.zeros((1, 15*3), dtype=torch.float32)
@@ -63,8 +108,8 @@ def show_mesh_interactive(vertices, faces):
     pyrender.Viewer(scene, use_raymond_lighting=True)
 
 if __name__ == "__main__":
-    height = float(input("Altura (cm): "))
-    weight = float(input("Peso (kg): "))
+    height = 165
+    weight = 55
 
     verts, faces = generate_smplx_mesh(height, weight)
     show_mesh_interactive(verts, faces)
