@@ -94,6 +94,7 @@ def generate_smpl_mesh(height_cm, weight_kg):
     )
 
     vertices = output.vertices[0].detach().cpu().numpy()
+    joints = output.joints[0].detach().cpu().numpy()
     faces = smpl_model.faces
 
-    return vertices, faces
+    return vertices, faces, joints

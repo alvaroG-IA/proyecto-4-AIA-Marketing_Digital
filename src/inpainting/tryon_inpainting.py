@@ -41,8 +41,8 @@ pipe.set_ip_adapter_scale(1.5)
 # 2️⃣ Cargar imágenes
 # -------------------------
 size = (640, 1030)
-person = Image.open("../RyanGosling.jpg").convert("RGB").resize(size)
-mask   = Image.open("../segmentation/outputs/mask_torso.png").convert("L").resize(size)
+person = Image.open("../modelo3D/avatar.png").convert("RGB").resize(size)
+mask   = Image.open("../Modelo3D/mask_torso_arms.png").convert("L").resize(size)
 garment = Image.open("../../garments/tshirt_1.png").convert("RGB").resize(size)
 
 pose_image = openpose(person)
