@@ -25,7 +25,7 @@ predictor = SamPredictor(sam)
 
 # 3. Cargar imagen
 # Cambia 'img.png' por 'card_deck.png' o cualquier otra imagen
-image_path = "img_2.png"
+image_path = "img.png"
 image = cv2.imread(image_path)
 
 if image is None:
@@ -131,5 +131,6 @@ plt.tight_layout()
 plt.show()
 
 # Guardar la máscara final
-cv2.imwrite("mask_perfecta.png", mask_refined * 255)
+mask_final = 1 - mask_refined
+cv2.imwrite("mask.png", mask_final * 255)
 print("Proceso finalizado. Máscara guardada como 'mask_perfecta.png'")
