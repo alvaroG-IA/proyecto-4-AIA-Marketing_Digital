@@ -8,7 +8,7 @@ def main():
     print("=" * 60)
 
     # 1. Selección de imagen y prompt del usuario
-    USER_IMG = "src/cambio_fondo/img.png"
+    USER_IMG = "data/images/botella.png"
     PROMPT_USUARIO = input('Que necesitas hacer?: ')
 
     if not os.path.exists(USER_IMG):

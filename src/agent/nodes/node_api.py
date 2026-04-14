@@ -74,7 +74,7 @@ def nodo_api_replicate(state: Dict[str, Any]) -> Dict[str, Any]:
         else:
             raise ValueError(f"Tipo de resultado inesperado: {type(output)}")
 
-        ruta_resultado = "resultado_replicate.png"
+        ruta_resultado = "output/resultado_final_replicate.png"
         print(f"[Nodo 3] 📥 Descargando imagen final...")
         response = requests.get(image_url_resultado)
 

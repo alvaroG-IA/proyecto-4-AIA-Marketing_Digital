@@ -123,7 +123,7 @@ def nodo_generador(state: Dict[str, Any]) -> Dict[str, Any]:
 
         final_img = result.resize((w_orig, h_orig), Image.LANCZOS)
 
-        final_img_path = "resultado_final.png"
+        final_img_path = "output/resultado_final_local.png"
         final_img.save(final_img_path)
 
         print(f"[Nodo 3] ✅ Imagen final guardada con éxito.")
