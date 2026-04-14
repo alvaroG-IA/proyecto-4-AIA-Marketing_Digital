@@ -43,7 +43,7 @@ def nodo_generador_online(state: Dict[str, Any]) -> Dict[str, Any]:
         kernel = np.ones((5, 5), np.uint8)
         mask = cv2.dilate(mask, kernel, iterations=1)
         mask_blurred = cv2.GaussianBlur(mask, (13, 13), 0)
-        new_mask_path = "mascara_procesada.png"
+        new_mask_path = "output/mascara_procesada.png"
         cv2.imwrite(new_mask_path, mask_blurred)
 
         print(f"[Nodo 3] ⚡ Enviando petición a Replicate...")
