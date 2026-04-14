@@ -4,8 +4,8 @@ from graph import run_agent
 if __name__ == "__main__":
 
     state = {
-        "image_path": "../../cambio_fondo/img.png",
-        "prompt": "put the bottle in a cyberpunk street at night"
+        "image_path": "src/cambio_fondo/img.png",
+        "prompt": "Pon esta botella en un bosque humedo al atardecer"
     }
 
     final_state = run_agent(state)

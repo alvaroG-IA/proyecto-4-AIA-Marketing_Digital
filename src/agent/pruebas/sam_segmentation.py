@@ -18,6 +18,7 @@ if not os.path.exists(SAM_CHECKPOINT):
 sam = sam_model_registry["vit_b"](checkpoint=SAM_CHECKPOINT).to(DEVICE)
 predictor = SamPredictor(sam)
 
+
 def sam_tool(state):
     print("✂️ Segmenting product...")
 
@@ -37,8 +38,8 @@ def sam_tool(state):
     )
 
     best = masks[np.argmax(scores)]
-
-    mask = (best * 255).astype(np.uint8)
+    mask = 1 - best
+    mask = (mask * 255).astype(np.uint8)
     path = "mask.png"
     cv2.imwrite(path, mask)
 
