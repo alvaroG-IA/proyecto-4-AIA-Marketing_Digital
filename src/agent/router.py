@@ -4,9 +4,8 @@ from state import ProductEnvironmentState
 
 
 def comprobar_internet() -> bool:
-    """Hace un ping ultrarrápido a los servidores DNS de Cloudflare para ver si hay WiFi."""
+    """Función que hace un ping rápido para comprobar si hay Wifi."""
     try:
-        # Intenta conectar al puerto 53 de 1.1.1.1 con un tiempo límite de 2 segundos
         socket.create_connection(("1.1.1.1", 53), timeout=2)
         return True
     except OSError:
@@ -15,17 +14,14 @@ def comprobar_internet() -> bool:
 
 def enrutador_de_renderizado(state: ProductEnvironmentState) -> str:
     """
-    Esta función NO modifica el estado. Solo mira el mundo exterior (o el estado)
-    y devuelve un 'String' que LangGraph usará como mapa.
+    Esta función comprueba si hay conexión a internet y devuelve un string que nuestro grafo LangGraph
+    usará como mapa para decidir que nodo elegir.
     """
-    print("🚦 [Enrutador] Comprobando estado de la red...")
-
-    # También podrías mirar una variable del estado si el usuario quiere forzar el modo local:
-    # if state.get("forzar_modo_local") == True: return "ir_a_local"
+    print("\n[Enrutador] 🚦 Comprobando estado de la red...")
 
     if comprobar_internet():
-        print("🚦 [Enrutador] ✅ Internet detectado. Desviando tráfico a la Nube (replicate).")
-        return "ir_a_local"
+        print("[Enrutador] ✅ Internet detectado. Desviando tráfico a la Nube (replicate).")
+        return "ir_a_nube"
     else:
-        print("🚦 [Enrutador] ⚠️ Sin conexión a Internet. Desviando tráfico a GPU Local (Diffusers).")
+        print("[Enrutador] ⚠️ Sin conexión a Internet. Desviando tráfico a GPU Local (Diffusers).")
         return "ir_a_local"

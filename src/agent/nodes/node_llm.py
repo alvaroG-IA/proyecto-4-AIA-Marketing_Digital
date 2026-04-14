@@ -6,6 +6,9 @@ from typing import Dict, Any
 
 
 class OptimizedPrompt(BaseModel):
+    """
+    Clase encargada de establecer el tipo de salida deseada para el LLM optimizador de prompts
+    """
     positive_prompt: str = Field(
         description="MAX 50 WORDS. Comma-separated keywords for Stable Diffusion."
     )
@@ -17,6 +20,7 @@ class OptimizedPrompt(BaseModel):
     )
 
 
+# System-prompt utilizado para la optimización de un primer prompt básico
 SYSTEM_PROMPT = """
     You are a Technical Art Director for high-end E-commerce Photography.
     Your goal is to generate professional, hyper-realistic descriptions. Avoid poetic, mystical, or metaphorical language (NO "sentinels", "ghostly", "whispering trees").
@@ -36,16 +40,23 @@ SYSTEM_PROMPT = """
     }}
 """
 
+# Generación de plantilla de chat basada en el system-prompt y la idea básica del usuario
 PROMPT_TEMPLATE = ChatPromptTemplate.from_messages([
     ("system", SYSTEM_PROMPT),
     ("human", "{user_idea}")
 ])
 
+# Defición del modelo LLM
 llm = ChatOllama(model="llama3.2", temperature=0.2, num_predict=300)
+
+# Diseño de flujo de generación de salida esperada (usa la salida del LLM y le aplica la lógica de la clase encargada de definir el tipo de salida
 extractor = PROMPT_TEMPLATE | llm.with_structured_output(OptimizedPrompt)
 
 
 def nodo_director_arte(state: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Nodo que recibe una idea básica del usuario y utiliza un LLM (llama3.2) para optimizarla y generar nuevos prompts.
+    """
     print("[NODE 1]🧠 Optimizando prompt inicial del usuario...")
 
     basic_idea = state.get("user_prompt")
