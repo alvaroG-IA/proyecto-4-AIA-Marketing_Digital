@@ -2,6 +2,9 @@ from typing import TypedDict, Optional
 
 
 class ProductEnvironmentState(TypedDict):
+    """
+    Clase encargada de recoger la estructura esperada de los estados del grafo de LangGraph
+    """
     original_img_path: str              # Este campo guarda la ruta de la imágen inicial dada por el usuario
     user_prompt: str                    # Este campo guarda el prompt dado por el usuario con el entorno desado
 

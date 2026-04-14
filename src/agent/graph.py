@@ -1,4 +1,3 @@
-import socket
 from langgraph.graph import StateGraph, START, END
 
 from state import ProductEnvironmentState
@@ -10,10 +9,6 @@ from nodes.node_local import nodo_generador
 
 from router import enrutador_de_renderizado
 
-
-# ==========================================
-# FUNCIÓN ENRUTADORA (El Guardia de Tráfico)
-# ==========================================
 
 def crear_agente_producto():
     print("🧠 Construyendo la arquitectura LangGraph...")

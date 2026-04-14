@@ -4,7 +4,9 @@ from langchain_core.prompts import ChatPromptTemplate
 from pydantic import BaseModel, Field
 from typing import Dict, Any
 
-
+# ==========================================
+# 1. CONFIGURACIÓN Y CARGA GLOBAL DEL MODELO
+# ==========================================
 class OptimizedPrompt(BaseModel):
     """
     Clase encargada de establecer el tipo de salida deseada para el LLM optimizador de prompts
@@ -53,6 +55,9 @@ llm = ChatOllama(model="llama3.2", temperature=0.2, num_predict=300)
 extractor = PROMPT_TEMPLATE | llm.with_structured_output(OptimizedPrompt)
 
 
+# ==========================================
+# 2. FUNCIÓN NODO
+# ==========================================
 def nodo_director_arte(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     Nodo que recibe una idea básica del usuario y utiliza un LLM (llama3.2) para optimizarla y generar nuevos prompts.

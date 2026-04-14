@@ -23,13 +23,13 @@ else:
 
 print(f"👁️ Cargando modelos de Difusión en memoria usando dispositivo: {DEVICE}...")
 
-# 1. Cargamos el modelo Control-Net basado en Canny
+# Cargamos el modelo Control-Net basado en Canny
 controlnet = ControlNetModel.from_pretrained(
     "lllyasviel/sd-controlnet-canny",
     torch_dtype=DTYPE
 )
 
-# 2. Cargamos el Pipeline de Inpaint
+# Cargamos el Pipeline de Inpaint
 pipe = StableDiffusionControlNetInpaintPipeline.from_pretrained(
     "SG161222/Realistic_Vision_V5.1_noVAE",
     controlnet=controlnet,
@@ -57,7 +57,6 @@ def nodo_generador(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     print("\n[Nodo 3] 🎨 Iniciando Generación de Imagen (Diffusion + ControlNet)...")
 
-    # 1. Extraemos variables del estado (Soportamos tu nomenclatura antigua y la nueva)
     img_path = state.get("original_img_path")
     mask_path = state.get("sam_mask_path")
     positive_prompt = state.get("flux_prompt")
@@ -79,7 +78,7 @@ def nodo_generador(state: Dict[str, Any]) -> Dict[str, Any]:
         mask_orig = Image.open(mask_path).convert("L")
         w_orig, h_orig = img_orig.size
 
-        MAX_DIM = 512 # Fijamos un valor máximo para el modelo de difusión (se recomienda este o como máximo 768px)
+        MAX_DIM = 512   # Fijamos un valor máximo para el modelo de difusión (se recomienda este o como máximo 768px)
 
         if w_orig > h_orig:
             new_w = MAX_DIM

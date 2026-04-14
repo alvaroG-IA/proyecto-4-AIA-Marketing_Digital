@@ -7,10 +7,16 @@ from dotenv import load_dotenv
 import numpy as np
 import cv2
 
+# ==========================================
+# 1. CONFIGURACIÓN Y CARGA GLOBAL DEL MODELO
+# ==========================================
 # Cargamos el entorno para acceder a la key de la API
 load_dotenv()
 
 
+# ==========================================
+# 2. FUNCIÓN NODO
+# ==========================================
 def nodo_api_replicate(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     Nodo que recibe la imagen, la máscara y el prompt orientado a Flux, y genera la
