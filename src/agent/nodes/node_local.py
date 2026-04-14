@@ -60,7 +60,7 @@ def nodo_generador(state: Dict[str, Any]) -> Dict[str, Any]:
     # 1. Extraemos variables del estado (Soportamos tu nomenclatura antigua y la nueva)
     img_path = state.get("original_img_path")
     mask_path = state.get("sam_mask_path")
-    positive_prompt = state.get("positive_prompt")
+    positive_prompt = state.get("flux_prompt")
     negative_prompt = state.get("negative_prompt")
 
     # Validaciones de seguridad de las variables del estado

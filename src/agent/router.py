@@ -18,13 +18,13 @@ def enrutador_de_renderizado(state: ProductEnvironmentState) -> str:
     Esta función NO modifica el estado. Solo mira el mundo exterior (o el estado)
     y devuelve un 'String' que LangGraph usará como mapa.
     """
-    print("\n🚦 [Enrutador] Comprobando estado de la red...")
+    print("🚦 [Enrutador] Comprobando estado de la red...")
 
     # También podrías mirar una variable del estado si el usuario quiere forzar el modo local:
     # if state.get("forzar_modo_local") == True: return "ir_a_local"
 
     if comprobar_internet():
-        print("🚦 [Enrutador] ✅ Internet detectado. Desviando tráfico a la Nube (Fal.ai).")
+        print("🚦 [Enrutador] ✅ Internet detectado. Desviando tráfico a la Nube (replicate).")
         return "ir_a_local"
     else:
         print("🚦 [Enrutador] ⚠️ Sin conexión a Internet. Desviando tráfico a GPU Local (Diffusers).")

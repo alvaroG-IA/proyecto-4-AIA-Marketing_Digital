@@ -7,20 +7,21 @@ def main():
     print("🚀 INICIANDO AGENTE DE PRODUCTO E-COMMERCE 🚀")
     print("=" * 60)
 
-    IMAGEN_USUARIO = "src/cambio_fondo/img.png"
+    # 1. Selección de imagen y prompt del usuario
+    USER_IMG = "src/cambio_fondo/img.png"
     PROMPT_USUARIO = input('Que necesitas hacer?: ')
 
-    if not os.path.exists(IMAGEN_USUARIO):
-        print(f"❌ Error: No se encuentra la imagen en {IMAGEN_USUARIO}.")
+    if not os.path.exists(USER_IMG):
+        print(f"❌ Error: No se encuentra la imagen en {USER_IMG}.")
         return
 
-    # 2. Creamos el estado inicial
+    # 2. Creación del estado inicial
     estado_inicial = {
-        "original_img_path": IMAGEN_USUARIO,
+        "original_img_path": USER_IMG,
         "user_prompt": PROMPT_USUARIO
     }
 
-    # 3. Compilamos tu grafo
+    # 3. Compilación del grafo
     agente = crear_agente_producto()
 
     print("\n⚡ Ejecutando pipeline (Director de Arte -> SAM -> Render)...")
@@ -29,11 +30,12 @@ def main():
     try:
         estado_final = agente.invoke(estado_inicial)
 
+        # 4. Resumen final de la ejecución
         print("-" * 60)
         print("✅ PROCESO COMPLETADO CON ÉXITO")
         print("\n📦 RESULTADOS DEL ESTADO FINAL:")
         print(f"🎨 Prompt LLM: {estado_final.get('positive_prompt')}")
-        print(f"🎨 Prompt LLM: {estado_final.get('flux_prompt')}")
+        print(f"🎨 Prompt FLUX-LLM: {estado_final.get('flux_prompt')}")
         print(f"✂️ Máscara SAM: {estado_final.get('sam_mask_path')}")
         print(f"📸 Imagen Final: {estado_final.get('final_img_path')}")
 

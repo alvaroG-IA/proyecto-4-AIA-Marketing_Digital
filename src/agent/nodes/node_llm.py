@@ -17,23 +17,23 @@ class OptimizedPrompt(BaseModel):
     )
 
 
-SYSTEM_PROMPT = """You are a Master Art Director for AI Photography.
-Your job is to translate the user's idea into TWO different prompt styles simultaneously: 
-one for Stable Diffusion (tags) and one for FLUX (natural language).
-
-STRICT RULES:
-1. EVERYTHING MUST BE IN ENGLISH. Translate the input if necessary.
-2. 'positive_prompt': MAX 50 WORDS. Use ONLY comma-separated keywords (e.g., 50mm lens, 8k, cinematic lighting).
-3. 'negative_prompt': Comma-separated keywords of things to avoid.
-4. 'flux_prompt': A highly descriptive, flowing paragraph in natural language. Describe lighting, textures, mood, and camera angles explicitly. NO comma-separated lists here.
-
-EXAMPLE:
-Input: "zapatilla en la luna"
-Output: {{ 
-  "positive_prompt": "sneaker on lunar surface, earth in background, cinematic lighting, 50mm lens, photorealistic, 8k", 
-  "negative_prompt": "ugly, blurry, atmosphere, clouds, deformed",
-  "flux_prompt": "A highly detailed, photorealistic close-up of a modern sneaker resting on the dusty, cratered surface of the moon. In the background, a breathtaking view of the Earth is visible against the pitch-black starry sky. The scene is illuminated by dramatic, harsh directional sunlight typical of lunar photography, casting deep, sharp shadows."
-}}
+SYSTEM_PROMPT = """
+    You are a Technical Art Director for high-end E-commerce Photography.
+    Your goal is to generate professional, hyper-realistic descriptions. Avoid poetic, mystical, or metaphorical language (NO "sentinels", "ghostly", "whispering trees").
+    
+    STRICT RULES FOR REALISM:
+    1. FOCUS ON LIGHTING: Use terms like 'softbox lighting', 'rim light', 'global illumination', 'depth of field', 'ray-tracing'.
+    2. DESCRIBE MATERIALS: Mention 'brushed metal texture', 'reflections', 'water droplets', 'detailed sand grains'.
+    3. PHOTOGRAPHIC STYLE: Always specify a camera (e.g., Sony A7R IV), a lens (e.g., 85mm f/1.8 macro), and sharp focus.
+    4. FLUX_PROMPT: Write a clean, technical description of a real photo. Do NOT use fantasy or storytelling elements. Focus on how the object is integrated into the environment.
+    
+    EXAMPLE:
+    Input: "botella en la playa"
+    Output: {{ 
+      "positive_prompt": "professional product photography, metal bottle, black sand beach, sharp focus, 8k, cinematic lighting, macro lens", 
+      "negative_prompt": "cgi, illustration, cartoon, fake, blurry, low resolution",
+      "flux_prompt": "A professional commercial photograph of a sleek metal bottle standing on wet black volcanic sand. The sun is low on the horizon, creating high-contrast golden hour lighting with sharp reflections on the bottle's metallic surface. Small crystal-clear ocean waves with realistic foam gently lap around the base. Shot with a 100mm macro lens, f/2.8, showing extreme detail in the sand grains and water droplets. Photorealistic, 8k, highly detailed textures."
+    }}
 """
 
 PROMPT_TEMPLATE = ChatPromptTemplate.from_messages([
@@ -41,18 +41,17 @@ PROMPT_TEMPLATE = ChatPromptTemplate.from_messages([
     ("human", "{user_idea}")
 ])
 
-llm = ChatOllama(model="llama3.2", temperature=0.1, num_predict=300)
+llm = ChatOllama(model="llama3.2", temperature=0.2, num_predict=300)
 extractor = PROMPT_TEMPLATE | llm.with_structured_output(OptimizedPrompt)
 
 
 def nodo_director_arte(state: Dict[str, Any]) -> Dict[str, Any]:
-    print("\n🧠 Optimizing prompt (Dual Mode: SD + FLUX)...")
+    print("[NODE 1]🧠 Optimizando prompt inicial del usuario...")
 
-    basic_idea = state.get("user_prompt") or state.get("prompt")
+    basic_idea = state.get("user_prompt")
 
     if not basic_idea:
         return {}
-
     try:
         result = extractor.invoke({"user_idea": basic_idea})
 
@@ -60,13 +59,12 @@ def nodo_director_arte(state: Dict[str, Any]) -> Dict[str, Any]:
             "positive_prompt": result.positive_prompt,
             "negative_prompt": result.negative_prompt,
             "flux_prompt": result.flux_prompt,
-            "optimized_prompt": result.positive_prompt
         }
     except Exception as e:
         print(f"❌ Error: {e}")
+
         return {
-            "positive_prompt": f"{basic_idea}, cinematic lighting, high quality, 8k",
-            "negative_prompt": "blurry, distorted, low quality",
-            "flux_prompt": f"A highly detailed, photorealistic image of {basic_idea}. The scene features beautiful cinematic lighting, sharp focus, and is shot in 8k resolution.",
-            "optimized_prompt": f"{basic_idea}, cinematic lighting, high quality, 8k"
+            "positive_prompt": f"product photography of {basic_idea}, high quality, 8k, highly detailed",
+            "negative_prompt": "drawing, anime, art, blurry, distorted",
+            "flux_prompt": f"A high-end professional product photograph of {basic_idea}. The lighting is cinematic and realistic, emphasizing textures and materials in a real-world environment. Sharp focus, 8k resolution.",
         }
