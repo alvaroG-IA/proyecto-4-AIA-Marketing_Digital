@@ -25,7 +25,7 @@ predictor = SamPredictor(sam)
 
 # 3. Cargar imagen
 # Cambia 'img.png' por 'card_deck.png' o cualquier otra imagen
-image_path = "img.png"
+image_path = "src/cambio_fondo/img_3.png"
 image = cv2.imread(image_path)
 
 if image is None:

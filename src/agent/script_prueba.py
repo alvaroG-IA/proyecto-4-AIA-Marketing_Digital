@@ -5,6 +5,7 @@ import os
 from nodes.node_llm import nodo_director_arte
 from nodes.node_sam import nodo_segmentador
 
+
 def ejecutar_test():
     print("🚀 INICIANDO TEST DE INTEGRACIÓN DE NODOS 🚀")
     print("=" * 50)
