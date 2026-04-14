@@ -50,7 +50,7 @@ NUM_INFERENCE_STEPS = 60
 # ==========================================
 # 2. FUNCIÓN NODO
 # ==========================================
-def nodo_generador(state: Dict[str, Any]) -> Dict[str, Any]:
+def nodo_generador_offline(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     Nodo que recibe la imagen, la máscara y los prompts, y genera la 
     imagen final usando Stable Diffusion + ControlNet con resize dinámico.

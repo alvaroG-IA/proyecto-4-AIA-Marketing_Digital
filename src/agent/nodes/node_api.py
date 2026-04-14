@@ -17,7 +17,7 @@ load_dotenv()
 # ==========================================
 # 2. FUNCIÓN NODO
 # ==========================================
-def nodo_api_replicate(state: Dict[str, Any]) -> Dict[str, Any]:
+def nodo_generador_online(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     Nodo que recibe la imagen, la máscara y el prompt orientado a Flux, y genera la
     imagen final usando el modelo Flux mediante el uso de la API Replicate.

@@ -2,10 +2,10 @@ from langgraph.graph import StateGraph, START, END
 
 from state import ProductEnvironmentState
 
-from nodes.node_llm import nodo_director_arte
+from nodes.node_llm import nodo_optimizador_prompt
 from nodes.node_sam import nodo_segmentador
-from nodes.node_api import nodo_api_replicate
-from nodes.node_local import nodo_generador
+from nodes.node_api import nodo_generador_online
+from nodes.node_local import nodo_generador_offline
 
 from router import enrutador_de_renderizado
 
@@ -16,10 +16,10 @@ def crear_agente_producto():
     workflow = StateGraph(ProductEnvironmentState)
 
     # 1. Adición de todos los nodos disponibles
-    workflow.add_node("director_arte", nodo_director_arte)
+    workflow.add_node("director_arte", nodo_optimizador_prompt)
     workflow.add_node("segmentador_sam", nodo_segmentador)
-    workflow.add_node("pintor_nube", nodo_api_replicate)
-    workflow.add_node("pintor_local", nodo_generador)
+    workflow.add_node("pintor_nube", nodo_generador_online)
+    workflow.add_node("pintor_local", nodo_generador_offline)
 
     # 2. Definimos las conexiones estáticas
     workflow.add_edge(START, "director_arte")

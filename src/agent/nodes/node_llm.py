@@ -58,7 +58,7 @@ extractor = PROMPT_TEMPLATE | llm.with_structured_output(OptimizedPrompt)
 # ==========================================
 # 2. FUNCIÓN NODO
 # ==========================================
-def nodo_director_arte(state: Dict[str, Any]) -> Dict[str, Any]:
+def nodo_optimizador_prompt(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     Nodo que recibe una idea básica del usuario y utiliza un LLM (llama3.2) para optimizarla y generar nuevos prompts.
     """
