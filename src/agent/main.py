@@ -32,9 +32,10 @@ def main():
         print("-" * 60)
         print("✅ PROCESO COMPLETADO CON ÉXITO")
         print("\n📦 RESULTADOS DEL ESTADO FINAL:")
-        print(f"🎨 Prompt LLM: {estado_final.get('prompt_optimizado')}")
-        print(f"✂️ Máscara SAM: {estado_final.get('ruta_mascara_sam')}")
-        print(f"📸 Imagen Final: {estado_final.get('ruta_resultado')}")
+        print(f"🎨 Prompt LLM: {estado_final.get('positive_prompt')}")
+        print(f"🎨 Prompt LLM: {estado_final.get('flux_prompt')}")
+        print(f"✂️ Máscara SAM: {estado_final.get('sam_mask_path')}")
+        print(f"📸 Imagen Final: {estado_final.get('final_img_path')}")
 
     except Exception as e:
         print(f"\n❌ El Agente sufrió un error durante la ejecución: {e}")

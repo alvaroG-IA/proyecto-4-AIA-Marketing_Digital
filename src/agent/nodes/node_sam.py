@@ -32,11 +32,10 @@ sam.to(device=DEVICE)
 predictor = SamPredictor(sam)
 print("✅ SAM listo y a la espera.")
 
-# ==========================================
-# 2. Función Nodo
-# ==========================================
 
-
+# ==========================================
+# 2. FUNCIÓN NODO
+# ==========================================
 def nodo_segmentador(state: Dict[str, Any]) -> Dict[str, Any]:
     """
     Nodo que recibe la ruta de la imagen, aplica un Punto Central Inteligente
@@ -96,15 +95,15 @@ def nodo_segmentador(state: Dict[str, Any]) -> Dict[str, Any]:
         mask_refined = cv2.morphologyEx(mask_refined, cv2.MORPH_CLOSE, kernel, iterations=3)
         mask_refined = cv2.medianBlur(mask_refined, 5)
 
-        # 4. Guardado de la máscara (Invirtiendo colores para FLUX)
+        # 4. Guardado de la máscara (En blanco el fondo, donde se va a generar el entorno)
         mask_final = 1 - mask_refined
-        ruta_mascara_salida = "mascara_sam_temporal.png"
-        cv2.imwrite(ruta_mascara_salida, mask_final * 255)
+        mask_path = "mascara_sam_temporal.png"
+        cv2.imwrite(mask_path, mask_final * 255)
         
         print(f"[Nodo 2] ✅ Máscara limpia generada en 1 solo paso.")
 
         return {
-            "ruta_mascara_sam": ruta_mascara_salida
+            "sam_mask_path": mask_path
         }
 
     except Exception as e:
