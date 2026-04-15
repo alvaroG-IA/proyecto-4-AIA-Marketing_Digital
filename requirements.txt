@@ -1,0 +1,15 @@
+controlnet_aux
+diffusers
+langchain_core
+langchain_ollama
+langgraph
+numpy
+opencv_python
+opencv_python_headless
+Pillow
+pydantic
+python-dotenv
+replicate
+Requests
+segment_anything
+torch
