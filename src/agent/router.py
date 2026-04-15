@@ -21,7 +21,7 @@ def enrutador_de_renderizado(state: ProductEnvironmentState) -> str:
 
     if comprobar_internet():
         print("[Enrutador] ✅ Internet detectado. Desviando tráfico a la Nube (replicate).")
-        return "ir_a_nube"
+        return "ir_a_local"
     else:
         print("[Enrutador] ⚠️ Sin conexión a Internet. Desviando tráfico a GPU Local (Diffusers).")
         return "ir_a_local"

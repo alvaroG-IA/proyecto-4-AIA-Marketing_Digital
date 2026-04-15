@@ -60,14 +60,18 @@ pip install -r requirements.txt
 ```
 
 3. Configuración de Variables de Entorno:
-Dentro de .venv meter el Token para poder usar la API
+Dentro de .env meter el Token para poder usar la API (**IMPORTANTE QUE LA VARIABLE TENGA EL MISMO NOMBRE**)
 ```bash
 REPLICATE_API_TOKEN=tu_token_aqui
 ```
 
 4. Modelos Locales:
-- Asegúrate de tener Ollama instalado y el modelo descargado: ollama run llama3.2.
-- El script descargará automáticamente el checkpoint de SAM (sam_vit_b_01ec64.pth) en la primera ejecución.
+- Asegúrate de tener Ollama instalado y el modelo descargado: 
+```
+ollama pull llama3.2
+ollama run llama3.2
+```
+- El script descargará automáticamente el checkpoint de SAM (`sam_vit_b_01ec64.pth`) en la primera ejecución.
 
 # 🎛️ Guía de Uso del Sistema Principal
 
@@ -80,5 +84,5 @@ python src/agent/main.py
 ```
 - Interacción: El sistema te pedirá una descripción del entorno deseado.
 
-Al finalizar, el sistema mostrará la ruta de la imagen final en la carpeta output/, detallando si el proceso fue Local o Online según tu disponibilidad de conexión.
+Al finalizar, el sistema mostrará la ruta de la imagen final en la carpeta `output/`, detallando si el proceso fue Local o Online según tu disponibilidad de conexión a Internet.
 

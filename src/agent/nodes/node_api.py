@@ -36,16 +36,6 @@ def nodo_generador_online(state: Dict[str, Any]) -> Dict[str, Any]:
         return {}
 
     try:
-        print(f"[Nodo 3] ⚡ Procesando máscara localmente (Blur + Dilate)...")
-
-        # Procesamos la máscara para darle más realismo a la imagen generada
-        mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
-        kernel = np.ones((5, 5), np.uint8)
-        mask = cv2.dilate(mask, kernel, iterations=1)
-        mask_blurred = cv2.GaussianBlur(mask, (13, 13), 0)
-        new_mask_path = "output/mascara_procesada.png"
-        cv2.imwrite(new_mask_path, mask_blurred)
-
         print(f"[Nodo 3] ⚡ Enviando petición a Replicate...")
         # 5. Llamada a Replicate usando los archivos abiertos
         output = replicate.run(
