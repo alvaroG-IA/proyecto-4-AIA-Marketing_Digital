@@ -22,11 +22,11 @@ def nodo_generador_online(state: Dict[str, Any]) -> Dict[str, Any]:
     Nodo que recibe la imagen, la máscara y el prompt orientado a Flux, y genera la
     imagen final usando el modelo Flux mediante el uso de la API Replicate.
     """
-    print("\n[Nodo 3] 🚀 Iniciando Generación en la nube (Replicate + FLUX)...")
+    print("\n[Nodo 3] 🚀 Iniciando Generación en la nube (Replicate + Nano-Banana)...")
 
     image_path = state.get("original_img_path")
     mask_path = state.get("sam_mask_path")
-    prompt_flux = state.get("flux_prompt")
+    descriptive_prompt = state.get("descriptive_prompt")
 
     if not image_path or not os.path.exists(image_path):
         print(f"❌ Error Crítico: No se encontró la imagen original en: '{image_path}'")
@@ -49,21 +49,19 @@ def nodo_generador_online(state: Dict[str, Any]) -> Dict[str, Any]:
         print(f"[Nodo 3] ⚡ Enviando petición a Replicate...")
         # 5. Llamada a Replicate usando los archivos abiertos
         output = replicate.run(
-            "black-forest-labs/flux-fill-dev",
+            "google/nano-banana",
             input={
-                "prompt": prompt_flux,
-                "image": open(image_path, "rb"),
-                "mask": open(new_mask_path, "rb"),
-                "guidance": 35.0,
-                "steps": 50,
-                "output_format": "png",
-                "output_quality": 100,
-                "prompt_upsampling": False
+                "prompt": descriptive_prompt,
+                "image_input": [
+                    open(image_path, "rb")
+
+                ],
+                "output_format": "jpg"
             }
         )
 
-        image_url_resultado = str(output[0])
-        ruta_resultado = "output/resultado_final_replicate.png"
+        image_url_resultado = str(output)
+        ruta_resultado = "output/resultado_final_online.png"
         print(f"[Nodo 3] 📥 Descargando imagen final...")
         response = requests.get(image_url_resultado)
 

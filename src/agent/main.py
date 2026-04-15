@@ -35,7 +35,7 @@ def main():
         print("✅ PROCESO COMPLETADO CON ÉXITO")
         print("\n📦 RESULTADOS DEL ESTADO FINAL:")
         print(f"🎨 Prompt LLM: {estado_final.get('positive_prompt')}")
-        print(f"🎨 Prompt FLUX-LLM: {estado_final.get('flux_prompt')}")
+        print(f"🎨 Prompt FLUX-LLM: {estado_final.get('descriptive_prompt')}")
         print(f"✂️ Máscara SAM: {estado_final.get('sam_mask_path')}")
         print(f"📸 Imagen Final: {estado_final.get('final_img_path')}")
 
