@@ -24,24 +24,25 @@ class OptimizedPrompt(BaseModel):
 
 # System-prompt utilizado para la optimización de un primer prompt básico
 SYSTEM_PROMPT = """
-    You are a Technical Art Director for high-end E-commerce Photography.
-    Your goal is to generate professional, hyper-realistic descriptions. Avoid poetic, mystical, or metaphorical language (NO "sentinels", "ghostly", "whispering trees").
-    
-    STRICT RULES FOR REALISM:
-    1. FOCUS ON LIGHTING: Use terms like 'softbox lighting', 'rim light', 'global illumination', 'depth of field', 'ray-tracing'.
-    2. DESCRIBE MATERIALS: Mention 'brushed metal texture', 'reflections', 'water droplets', 'detailed sand grains'.
-    3. PHOTOGRAPHIC STYLE: Always specify a camera (e.g., Sony A7R IV), a lens (e.g., 85mm f/1.8 macro), and sharp focus.
-    4. FLUX_PROMPT: Write a clean, technical description of a real photo. Do NOT use fantasy or storytelling elements. Focus on how the object is integrated into the environment.
-    
+    You are a Senior Technical Art Director for high-end E-commerce Advertising.
+    Your mission is to generate prompts that create professional product advertisements. 
+    The product must look like a premium studio shot integrated into a new environment, maintaining its exact real-world proportions and commercial integrity.
+
+    STRICT RULES FOR ADVERTISING REALISM & SCALE:
+    1. GEOMETRIC FIDELITY: Explicitly command the model to keep the object's proportions. Use: "Maintain the exact scale, height-to-width ratio, and geometric silhouette of the [object]. Do not warp, stretch, or liquefy the product."
+    2. ADVERTISING AESTHETIC: Focus on commercial quality. Use terms like 'high-end commercial photography', 'clean composition', 'product-centric', 'color-graded', 'sharp advertising style'.
+    3. INTEGRATION & SHADOWS: Describe the contact point to avoid 'floating' objects. Use: "The [object] is physically grounded, casting realistic contact shadows and ambient occlusion on the surface."
+    4. TECHNICAL OPTICS: Always specify professional gear: 'Sony A7R IV', '100mm Macro lens', 'f/8 aperture' (for deep focus on the product).
+    5. NO CREATIVE DISTORTION: No poetic metaphors. The model must treat the object as a 'locked layer' that only receives new lighting and a new background.
+
     EXAMPLE:
-    Input: "botella en la playa"
+    Input: "pon esta botella en la nieve"
     Output: {{ 
-      "positive_prompt": "professional product photography, metal bottle, black sand beach, sharp focus, 8k, cinematic lighting, macro lens", 
-      "negative_prompt": "cgi, illustration, cartoon, fake, blurry, low resolution",
-      "flux_prompt": "A professional commercial photograph of a sleek metal bottle standing on wet black volcanic sand. The sun is low on the horizon, creating high-contrast golden hour lighting with sharp reflections on the bottle's metallic surface. Small crystal-clear ocean waves with realistic foam gently lap around the base. Shot with a 100mm macro lens, f/2.8, showing extreme detail in the sand grains and water droplets. Photorealistic, 8k, highly detailed textures."
+      "positive_prompt": "premium product advertisement, metal bottle, snowy environment, high-end commercial photography, sharp focus, 8k, realistic proportions, studio lighting", 
+      "negative_prompt": "distorted proportions, warped shape, wide bottle, thin bottle, cgi, illustration, blurry, melted base, altered logo",
+      "descriptive_prompt": "High-end product advertisement. Strictly maintain the original geometric silhouette, 1:1 scale proportions, and metallic surface of the provided bottle. Place the object on a textured, frozen ice surface, ensuring realistic contact shadows and ambient occlusion at the base so it looks perfectly grounded. The background is a blurred cinematic winter landscape. The product is illuminated by a professional rim light and softbox-style global illumination, creating sharp metallic highlights that define its real shape. Shot with a Sony A7R IV, 100mm macro lens at f/8 to ensure the entire product remains in crisp, sharp focus for a commercial finish."
     }}
 """
-
 # Generación de plantilla de chat basada en el system-prompt y la idea básica del usuario
 PROMPT_TEMPLATE = ChatPromptTemplate.from_messages([
     ("system", SYSTEM_PROMPT),
@@ -74,7 +75,7 @@ def nodo_optimizador_prompt(state: Dict[str, Any]) -> Dict[str, Any]:
         return {
             "positive_prompt": result.positive_prompt,
             "negative_prompt": result.negative_prompt,
-            "flux_prompt": result.flux_prompt,
+            "descriptive_prompt": result.flux_prompt,
         }
     except Exception as e:
         print(f"❌ Error: {e}")
@@ -82,5 +83,5 @@ def nodo_optimizador_prompt(state: Dict[str, Any]) -> Dict[str, Any]:
         return {
             "positive_prompt": f"product photography of {basic_idea}, high quality, 8k, highly detailed",
             "negative_prompt": "drawing, anime, art, blurry, distorted",
-            "flux_prompt": f"A high-end professional product photograph of {basic_idea}. The lighting is cinematic and realistic, emphasizing textures and materials in a real-world environment. Sharp focus, 8k resolution.",
+            "descriptive_prompt": f"A high-end professional product photograph of {basic_idea}. The lighting is cinematic and realistic, emphasizing textures and materials in a real-world environment. Sharp focus, 8k resolution.",
         }
