@@ -97,7 +97,10 @@ def nodo_segmentador(state: Dict[str, Any]) -> Dict[str, Any]:
 
         # Guardado de la máscara (En blanco el fondo, donde se va a generar el entorno)
         mask_final = 1 - mask_refined
+
         mask_path = "output/mascara_sam_temporal.png"
+        os.makedirs(os.path.dirname(mask_path), exist_ok=True)
+
         cv2.imwrite(mask_path, mask_final * 255)
         
         print(f"[Nodo 2] ✅ Máscara limpia generada en 1 solo paso.")

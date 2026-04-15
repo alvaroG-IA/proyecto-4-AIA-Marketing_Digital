@@ -13,7 +13,7 @@ class OptimizedPrompt(BaseModel):
     Clase encargada de establecer el tipo de salida deseada para el LLM optimizador de prompts
     """
     positive_prompt: str = Field(
-        description="MAX 50 WORDS. Comma-separated keywords for Stable Diffusion."
+        description="MAX 77 WORDS. Comma-separated keywords for Stable Diffusion."
     )
     negative_prompt: str = Field(
         description="Negative keywords to avoid in Stable Diffusion."
