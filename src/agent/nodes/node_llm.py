@@ -17,7 +17,7 @@ class OptimizedPrompt(BaseModel):
     negative_prompt: str = Field(
         description="Negative keywords to avoid in Stable Diffusion."
     )
-    flux_prompt: str = Field(
+    descriptive_prompt: str = Field(
         description="A highly descriptive, natural language paragraph (approx 80-100 words) explaining the exact same scene for the FLUX model."
     )
 
@@ -72,10 +72,11 @@ def nodo_optimizador_prompt(state: Dict[str, Any]) -> Dict[str, Any]:
     try:
         result = extractor.invoke({"user_idea": basic_idea})
 
+        print('[Nodo 1] ✅ Prompt optimizado correctamente!')
         return {
             "positive_prompt": result.positive_prompt,
             "negative_prompt": result.negative_prompt,
-            "descriptive_prompt": result.flux_prompt,
+            "descriptive_prompt": result.descriptive_prompt,
         }
     except Exception as e:
         print(f"❌ Error: {e}")
